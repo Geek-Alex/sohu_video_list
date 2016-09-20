@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <style>
+        body,div,ul,h2,p { 
+            margin: 0;
+            padding: 0;
+            font-family: '宋体'; 
+        }
+        body { 
+            background: #000;
+        }
+        li { 
+            list-style: none; 
+        }
+        a { 
+            text-decoration: none; 
+        }
+        img { 
+            border: none;
+            vertical-align: top;
+        }
+        .clear:after { 
+            content: "";
+            display: block;
+            clear: both;
+        }
+        #wrap { 
+            position: relative;
+            margin: 30px auto;
+            width: 255px;
+            height: 370px;
+            padding: 0 7px 26px 6px;
+            background: #dee7e7;
+        }
+        #wrap a { 
+            position: absolute;
+            right: 7px;
+            bottom: 8px;
+            font-size: 12px;
+            color: #393131;
+        }
+        #wrap .title { 
+            float: left;
+            height: 37px;
+            width: 146px;
+            font-size: 18px;
+            line-height: 37px;
+            text-indent: 14px;
+            color: #103142;
+        }
+        #wrap .nav { 
+            float: left;
+            width: 108px;
+            height: 25px;
+            border-top: 1px solid #94bdd6;
+            border-right: 1px solid #94bdd6;
+            position: relative;
+            top:12px;
+            z-index: 10;
+        }
+        #wrap .nav li { 
+            float: left;
+            width:35px;
+            height:24px;
+            border-left: 1px solid #94bdd6;
+            border-bottom: 1px solid #94bdd6;
+            font-size: 12px;
+            color: #185273;
+            line-height: 24px;
+            text-align: center;
+            cursor: pointer;
+        }
+        #wrap .nav li.active { 
+            background: #fff;
+            border-bottom-color: #fff;
+        }
+        #section .list {
+            float: left;
+            width: 255px;
+            height: 333px;
+            border-top: 1px solid #94bdd6;
+        }
+        #section .list li.text { 
+            position: relative;
+            width: 218px;
+            height: 26px;
+            line-height: 26px;
+            border-bottom: 1px dashed #fff;
+            padding-left: 37px;
+            padding-top: 1px;
+            font-size: 12px;
+        }
+        #section .list li.active { 
+            position: relative;
+            width: 247px;
+            height: 66px;
+            padding: 7px 0 7px 8px;
+            background: #fff;
+        }
+        #section li.active .summary {
+            display: none;
+        }
+        #section .list a {
+        }
+        #section .list span { 
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 17px;
+            height: 13px;
+            text-align: center;
+            font-size: 10px;
+            color: #fff;
+            line-height: 13px;
+            background: url("img/liBg1.gif") repeat-x;
+        }
+        #section .list .summary {
+            height: 26px;
+            line-height: 26px;
+            color: #000;
+        }
+        #section .list a { 
+            display: none;
+            width: 80px;
+            height: 60px;
+            border: 1px solid #dee7e7;
+            padding: 2px;
+            position: absolute;
+            left: 35px;
+        }
+        #section .list .detail { 
+            display: none;
+            width: 110px;
+            height: 36px;
+            line-height: 18px;
+            font-size: 12px;
+            color: #185273;
+            position: absolute;
+            left: 129px;
+            padding-top: 4px;
+        }
+        #section .list .play {
+            display: none;
+            width: 41px;
+            height: 21px;
+            border-radius: 2px;
+            position: absolute;
+            right: 7px;
+            bottom: 7px;
+            font-size: 12px;
+            color: #fff;
+            text-indent: 12px;
+            line-height: 20px;
+            background: #29739c url("img/play.gif") no-repeat 5px 7px;
+        }
+
+    </style>
+    <script>
+        function $(id){
+            return document.getElementById(id)
+        }
+        function change(obj){
+            var aLis = obj.getElementsByTagName("li");
+            var oA = obj.getElementsByTagName("a");
+            var oDet = obj.getElementsByClassName("detail");
+            var oPlay = obj.getElementsByClassName("play");
+            var oSum = obj.getElementsByClassName("summary");
+            var num = 0;
+
+            for( var i = 0; i < aLis.length; i++ ){
+                aLis[i].index = i;
+                aLis[i].onmouseover = function (){
+                    aLis[num].className = "text";
+                    oA[num].style.display = "none";
+                    oDet[num].style.display = "none";
+                    oPlay[num].style.display = "none";
+                    oSum[num].style.display = "block";
+
+                    this.className = "active";
+                    oA[this.index].style.display = "block";
+                    oDet[this.index].style.display = "block";
+                    oPlay[this.index].style.display = "block";
+                    oSum[this.index].style.display = "none";
+                    num = this.index;
+                }
+            }
+        }
+        window.onload = function (){
+            var oSec = $("section");
+            var aUl = oSec.getElementsByClassName("list");
+            var aNav = document.getElementsByClassName("nav")[0];
+            var aNavLis = aNav.getElementsByTagName("li");
+            for( var i = 0; i < aUl.length; i++ ){
+                change(aUl[i]);
+            }
+
+            for( var i = 0; i < aNavLis.length; i++ ){
+                aNavLis[i].index = i;
+                aNavLis[i].onclick = function (){
+                    for( var i = 0; i < aNavLis.length; i++ ){
+                        aNavLis[i].className = "none";
+                        aUl[i].style.display = "none";
+                    }
+                    this.className = "active";
+                    aUl[this.index].style.display = "block";
+                }
+            }
+            
+        }
+    </script>
+</head>
+<body>
+<div id="wrap" class="clear">
+    <h2 class="title">观看排行榜</h2>
+    <ul class="nav clear">
+        <li class="active">每日</li>
+        <li>每周</li>
+        <li>全部</li>
+    </ul>
+    <section id="section">
+        <ul class="list">
+            <li class="active">
+                <span>1</span>
+                <a href="#" style="display: block;">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail" style="display: block;">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play" style="display: block;">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>2</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>3</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>4</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>5</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>6</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>7</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>8</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>9</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>10</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">1深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+        </ul> 
+        <ul class="list" style="display: none;">
+            <li class="active">
+                <span>1</span>
+                <a href="#" style="display: block;">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail" style="display: block;">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play" style="display: block;">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>2</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>3</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>4</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>5</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>6</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>7</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>8</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>9</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>10</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">2深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+        </ul> 
+        <ul class="list" style="display: none;">
+            <li class="active">
+                <span>1</span>
+                <a href="#" style="display: block;">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail" style="display: block;">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play" style="display: block;">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>2</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>3</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>4</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>5</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>6</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>7</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>8</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>9</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+            <li class="text">
+                <span>10</span>
+                <a href="#">
+                    <img src="img/liPic.gif" />
+                </a>
+                <p class="detail">3深度解密传奇事件人物，探索未知、...</p>
+                <div class="play">播放</div> 
+                <p class="summary">解密：关于地球和人类的一千零一问</p>
+            </li>
+        </ul>
+    </section>
+    <a href="#">更多>></a>
+</div>
+</body>
+</html>
